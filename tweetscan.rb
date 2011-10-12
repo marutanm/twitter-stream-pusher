@@ -11,6 +11,10 @@ ACCESS_KEY      ||= ENV['ACCESS_KEY']
 ACCESS_SECRET   ||= ENV['ACCESS_SECRET']
 TRACK           ||= ENV['TRACK']
 
+Pusher.app_id   ||= ENV['PUSHER_ID']
+Pusher.key      ||= ENV['PUSHER_KEY']
+Pusher.secret   ||= ENV['PUSHER_SECRET']
+
 EventMachine::run {
   stream = Twitter::JSONStream.connect(
     :path    => "/1/statuses/filter.json?track=#{TRACK}",
@@ -26,6 +30,7 @@ EventMachine::run {
   stream.each_item do |item|
     $stdout.print "item: #{item}\n"
     $stdout.flush
+    Pusher['twitter'].trigger('new-post', item)
   end
 
   stream.on_error do |message|
