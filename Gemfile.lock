@@ -1,8 +1,18 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    crack (0.1.8)
     eventmachine (0.12.10)
     http_parser.rb (0.5.3)
+    multi_json (1.0.3)
+    pusher (0.8.3)
+      crack (~> 0.1.0)
+      multi_json (~> 1.0)
+      ruby-hmac (~> 0.4.0)
+      signature (~> 0.1.2)
+    ruby-hmac (0.4.0)
+    signature (0.1.2)
+      ruby-hmac
     simple_oauth (0.1.5)
     twitter-stream (0.1.14)
       eventmachine (>= 0.12.8)
@@ -13,4 +23,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  pusher
   twitter-stream
