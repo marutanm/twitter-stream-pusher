@@ -3,11 +3,23 @@ require 'bundler'
 Bundler.require
 
 require 'twitter/json_stream'
+require './secret' if File.exist?("./secret.rb")
+
+CONSUMER_KEY    ||= ENV['CONSUMER_KEY']
+CONSUMER_SECRET ||= ENV['CONSUMER_SECRET']
+ACCESS_KEY      ||= ENV['ACCESS_KEY']
+ACCESS_SECRET   ||= ENV['ACCESS_SECRET']
+TRACK           ||= ENV['TRACK']
 
 EventMachine::run {
   stream = Twitter::JSONStream.connect(
-    :path    => '/1/statuses/filter.json?track=ruby',
-    :auth    => 'USERNAME:PASSWORD',
+    :path    => "/1/statuses/filter.json?track=#{TRACK}",
+    :oauth => {
+      :consumer_key    => CONSUMER_KEY,
+      :consumer_secret => CONSUMER_SECRET,
+      :access_key      => ACCESS_KEY,
+      :access_secret   => ACCESS_SECRET
+    },
     :ssl => true
   )
 
